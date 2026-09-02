@@ -9,6 +9,7 @@
 [![FastAPI](https://img.shields.io/badge/Serving-FastAPI-009688.svg?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
 [![Streamlit](https://img.shields.io/badge/SupTech%20Portal-Streamlit-FF4B4B.svg?logo=streamlit&logoColor=white)](https://streamlit.io/)
 [![Podman/Docker](https://img.shields.io/badge/Container-Podman%20%7C%20Docker-892CA0.svg?logo=podman&logoColor=white)](https://podman.io/)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/GuillenConcepcion/sb-riskintel/blob/main/notebooks/01_eda_data_quality_modeling_prescriptive.ipynb)
 
 ---
 
