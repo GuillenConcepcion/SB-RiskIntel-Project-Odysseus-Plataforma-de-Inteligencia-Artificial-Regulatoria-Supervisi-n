@@ -1,0 +1,29 @@
+{
+  "features": [
+    "month_num",
+    "month_sin",
+    "month_cos",
+    "quarter",
+    "time_step",
+    "reclamaciones_lag_1",
+    "reclamaciones_lag_2",
+    "reclamaciones_lag_3",
+    "reclamaciones_lag_6",
+    "monto_devolver_lag_1",
+    "monto_devolver_lag_2",
+    "monto_devolver_lag_3",
+    "reclamaciones_roll_mean_3m",
+    "reclamaciones_roll_std_3m",
+    "monto_devolver_roll_mean_3m",
+    "monto_devolver_roll_std_3m"
+  ],
+  "metrics": {
+    "claims_rmse": 93.75915112614898,
+    "claims_mae": 80.39705194410632,
+    "claims_wape": 0.1458670429196561,
+    "restitution_rmse_dop": 3625621.499286382,
+    "restitution_mae_dop": 2420239.025795735
+  },
+  "last_period": "2026-06",
+  "total_historical_months": 71
+}

@@ -1,0 +1,80 @@
+{
+  "model_type": "LightGBMClassifier",
+  "features": [
+    "total_infracciones_imputadas",
+    "total_sanciones_impuestas",
+    "monto_sanciones_dop",
+    "total_procesos_sancionadores",
+    "total_solicitudes_aml",
+    "total_inspecciones_eif",
+    "sanction_intensity",
+    "infraction_per_inspection",
+    "sanction_conversion_rate",
+    "aml_pressure_index",
+    "infracciones_lag_1",
+    "sanciones_lag_1",
+    "monto_sanciones_lag_1",
+    "aml_solicitudes_lag_1",
+    "procesos_sancionadores_lag_1",
+    "infracciones_lag_2",
+    "sanciones_lag_2",
+    "monto_sanciones_lag_2",
+    "aml_solicitudes_lag_2",
+    "procesos_sancionadores_lag_2",
+    "infracciones_roll_mean_4q",
+    "sanciones_roll_mean_4q",
+    "monto_sanciones_roll_mean_4q",
+    "aml_roll_mean_4q",
+    "infracciones_momentum",
+    "aml_momentum"
+  ],
+  "metrics": {
+    "cv_roc_auc": 0.6696428571428572,
+    "cv_accuracy": 0.7692307692307693,
+    "cv_precision": 0.8484848484848485,
+    "cv_recall": 0.875,
+    "cv_f1": 0.8615384615384616
+  },
+  "top_features": [
+    {
+      "feature": "total_infracciones_imputadas",
+      "importance": 0.11518324406311965
+    },
+    {
+      "feature": "sanciones_roll_mean_4q",
+      "importance": 0.11169284272787361
+    },
+    {
+      "feature": "total_inspecciones_eif",
+      "importance": 0.08202443137828218
+    },
+    {
+      "feature": "total_procesos_sancionadores",
+      "importance": 0.0767888293754131
+    },
+    {
+      "feature": "monto_sanciones_dop",
+      "importance": 0.07504362870779008
+    },
+    {
+      "feature": "monto_sanciones_lag_1",
+      "importance": 0.061082023366805877
+    },
+    {
+      "feature": "aml_solicitudes_lag_1",
+      "importance": 0.045375217358198654
+    },
+    {
+      "feature": "infracciones_roll_mean_4q",
+      "importance": 0.043630016690575625
+    },
+    {
+      "feature": "aml_roll_mean_4q",
+      "importance": 0.043630016690575625
+    },
+    {
+      "feature": "infraction_per_inspection",
+      "importance": 0.0349040133524605
+    }
+  ]
+}
