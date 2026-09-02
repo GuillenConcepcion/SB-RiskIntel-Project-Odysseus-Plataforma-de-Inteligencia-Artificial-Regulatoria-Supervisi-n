@@ -74,8 +74,17 @@ os.environ["DISABLE_PANDERA_IMPORT_WARNING"] = "True"
 IN_COLAB = "google.colab" in sys.modules
 if IN_COLAB:
     print("🚀 Detectado entorno Google Colab. Configurando repositorio y dependencias...")
-    !git clone https://github.com/GuillenConcepcion/sb-riskintel.git
-    %cd sb-riskintel
+    # Intentar clonar si el repositorio de GitHub es público
+    clone_res = os.system("git clone --depth 1 https://github.com/GuillenConcepcion/sb-riskintel.git")
+    if clone_res == 0 and os.path.exists("sb-riskintel"):
+        os.chdir("sb-riskintel")
+        print("✅ Repositorio clonado y seleccionado como directorio de trabajo.")
+    else:
+        print("ℹ️ Modo Colab Standalone activado. Preparando estructura local...")
+        os.makedirs("data/raw", exist_ok=True)
+        os.makedirs("data/processed", exist_ok=True)
+        os.makedirs("models_registry", exist_ok=True)
+
     !pip install -q duckdb polars pandera lightgbm shap statsmodels plotly pydantic-settings
     if os.path.abspath(".") not in sys.path:
         sys.path.insert(0, os.path.abspath("."))
@@ -126,12 +135,32 @@ print(f"📁 Rutas de datos: Raw -> {RAW_DATA_DIR} | Processed -> {PROCESSED_DAT
 
 Evaluamos la salud de los datos, completitud, anomalías y contratos de validación sobre los datasets institucionales de la Superintendencia de Bancos.""")
 
-    code("""# Cargar datasets procesados clave
-df_claims = pd.read_parquet(PROCESSED_DATA_DIR / "prousuario_reclamaciones_cleaned.parquet")
-df_master = pd.read_parquet(PROCESSED_DATA_DIR / "supervision_consolidated_quarterly.parquet")
-df_infractions = pd.read_parquet(PROCESSED_DATA_DIR / "infracciones_imputadas_cleaned.parquet")
-df_ews_features = pd.read_parquet(PROCESSED_DATA_DIR / "features_supervision_ews.parquet")
-df_forecast_features = pd.read_parquet(PROCESSED_DATA_DIR / "features_claims_forecast.parquet")
+    code("""# Cargar datasets procesados clave (con verificación y auto-descarga resiliente)
+claims_path = PROCESSED_DATA_DIR / "prousuario_reclamaciones_cleaned.parquet"
+master_path = PROCESSED_DATA_DIR / "supervision_consolidated_quarterly.parquet"
+inf_path = PROCESSED_DATA_DIR / "infracciones_imputadas_cleaned.parquet"
+ews_features_path = PROCESSED_DATA_DIR / "features_supervision_ews.parquet"
+forecast_features_path = PROCESSED_DATA_DIR / "features_claims_forecast.parquet"
+
+# Si no existen los datos procesados en la sesión de Colab, ejecutar pipeline ETL automático
+if not claims_path.exists():
+    print("⚡ Datos procesados no encontrados en la sesión. Ejecutando ETL y descarga automática desde portal SB...")
+    try:
+        from src.data.download import download_all_open_datasets
+        from src.data.cleaner import run_full_etl_pipeline
+        from src.features.build_features import generate_all_features
+        download_all_open_datasets()
+        run_full_etl_pipeline()
+        generate_all_features()
+        print("✅ Pipeline ETL ejecutado exitosamente.")
+    except Exception as err:
+        print(f"⚠️ Nota de inicialización ETL: {err}")
+
+df_claims = pd.read_parquet(claims_path) if claims_path.exists() else pd.DataFrame()
+df_master = pd.read_parquet(master_path) if master_path.exists() else pd.DataFrame()
+df_infractions = pd.read_parquet(inf_path) if inf_path.exists() else pd.DataFrame()
+df_ews_features = pd.read_parquet(ews_features_path) if ews_features_path.exists() else pd.DataFrame()
+df_forecast_features = pd.read_parquet(forecast_features_path) if forecast_features_path.exists() else pd.DataFrame()
 
 print(f"📊 Dataset Reclamaciones ProUsuario: {df_claims.shape[0]} registros, {df_claims.shape[1]} columnas")
 print(f"📊 Dataset Master Supervisión Trimestral: {df_master.shape[0]} trimestres, {df_master.shape[1]} columnas")
