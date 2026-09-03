@@ -133,8 +133,8 @@ flowchart TD
 
 ### 1. Clonar el repositorio y sincronizar dependencias:
 ```bash
-git clone https://github.com/GuillenConcepcion/sb-riskintel.git
-cd sb-riskintel
+git clone https://github.com/GuillenConcepcion/SB-RiskIntel-Project-Odysseus-Plataforma-de-Inteligencia-Artificial-Regulatoria-Supervisi-n.git
+cd SB-RiskIntel-Project-Odysseus-Plataforma-de-Inteligencia-Artificial-Regulatoria-Supervisi-n
 
 # Instalación ultrarrápida con uv
 uv sync

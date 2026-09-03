@@ -6,7 +6,7 @@
 
 **Por:** **Guillén Concepción** | *Senior Data Scientist & MLOps Engineer*  
 **Proyecto:** **SB-RiskIntel (Project Odysseus)**  
-**Repositorio Oficial:** [github.com/GuillenConcepcion/sb-riskintel](https://github.com/GuillenConcepcion/sb-riskintel)  
+**Repositorio Oficial:** [github.com/GuillenConcepcion/SB-RiskIntel-Project-Odysseus-Plataforma-de-Inteligencia-Artificial-Regulatoria-Supervisi-n](https://github.com/GuillenConcepcion/SB-RiskIntel-Project-Odysseus-Plataforma-de-Inteligencia-Artificial-Regulatoria-Supervisi-n)  
 
 ---
 
@@ -56,7 +56,7 @@ Vigilancia estadística activa sobre 26 variables clave mediante **Population St
 El código fuente, los modelos calibrados, la documentación técnica y las visualizaciones de alta resolución están disponibles en código abierto bajo licencia MIT.
 
 👉 **Explora el repositorio completo en GitHub:**  
-🔗 https://github.com/GuillenConcepcion/sb-riskintel
+🔗 https://github.com/GuillenConcepcion/SB-RiskIntel-Project-Odysseus-Plataforma-de-Inteligencia-Artificial-Regulatoria-Supervisi-n
 
 ¿Cómo visualizan la integración de Conformal Prediction y MLOps en la supervisión financiera de sus organizaciones? Abro el debate en los comentarios. 👇
 
