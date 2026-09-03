@@ -16,6 +16,9 @@
 [![Redis](https://img.shields.io/badge/Caching-Redis%20%2B%20LRU-DC382D.svg?logo=redis&logoColor=white)](https://redis.io/)
 [![Podman/Docker](https://img.shields.io/badge/Containers-Podman%20%7C%20Docker-892CA0.svg?logo=podman&logoColor=white)](https://podman.io/)
 
+<div align="center">
+  <img src="images/sb_riskintel_hero_banner.png" alt="SB-RiskIntel / Project Odysseus - Central Banking AI Platform" width="100%" style="border-radius: 10px; box-shadow: 0 6px 18px rgba(0,0,0,0.25);" />
+</div>
 
 ---
 

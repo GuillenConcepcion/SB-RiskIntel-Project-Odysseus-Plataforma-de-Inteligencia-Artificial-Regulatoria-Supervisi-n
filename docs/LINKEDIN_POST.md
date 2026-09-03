@@ -68,12 +68,13 @@ El código fuente, los modelos calibrados, la documentación técnica y las visu
 
 ## 🎯 Consejos para la Publicación en LinkedIn:
 
-1. **Adjuntar Imágenes de Alto Impacto:**
-   * Recomendado adjuntar un carrusel (PDF) o imagen combinada con:
-     * `01_conformal_prediction_intervals.png` (Bandas de Predicción Conforme)
-     * `02_monte_carlo_stress_distribution.png` (Simulación Monte Carlo)
-     * `03_xai_shap_feature_importance.png` (Explicabilidad SHAP)
-     * `05_supervisory_latent_clusters_pca.png` (Clusters PCA)
+1. **Adjuntar Material Visual Oficial:**
+   * **Opción A (Recomendada - Carrusel Interactivo PDF):**  
+     Subir el documento [`docs/SB_RiskIntel_LinkedIn_Carousel.pdf`](file:///d:/LabD/DS-Superintedencia%20de%20Bancos/docs/SB_RiskIntel_LinkedIn_Carousel.pdf) como archivo adjunto de tipo "Documento" en LinkedIn.
+   * **Opción B (Imagen de Portada Digital IA):**  
+     Adjuntar [`images/sb_riskintel_hero_banner.png`](file:///d:/LabD/DS-Superintedencia%20de%20Bancos/images/sb_riskintel_hero_banner.png) (Centro de mando y red neuronal bancaria generado con IA).
+   * **Opción C (Cuadrícula 2x2 Showcase):**  
+     Adjuntar [`images/00_linkedin_carousel_showcase_grid.png`](file:///d:/LabD/DS-Superintedencia%20de%20Bancos/images/00_linkedin_carousel_showcase_grid.png) (Infografía técnica en alta resolución).
 
 2. **Horario Óptimo de Publicación:**
    * Martes a Jueves entre las **8:30 AM y 10:30 AM** o de **1:30 PM a 3:00 PM** (hora local), cuando la comunidad financiera y de analítica tiene mayor interacción ejecutiva.
