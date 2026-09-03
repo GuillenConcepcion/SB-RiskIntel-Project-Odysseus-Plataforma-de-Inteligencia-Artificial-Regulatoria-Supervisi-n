@@ -1,0 +1,53 @@
+{
+  "task": "supervisory_clustering",
+  "optimal_k": 2,
+  "best_silhouette": 0.1348,
+  "k_evaluations": [
+    {
+      "k": 2,
+      "silhouette_score": 0.1348,
+      "davies_bouldin_index": 2.1267,
+      "calinski_harabasz_score": 6.94
+    },
+    {
+      "k": 3,
+      "silhouette_score": 0.1238,
+      "davies_bouldin_index": 2.0415,
+      "calinski_harabasz_score": 6.0
+    },
+    {
+      "k": 4,
+      "silhouette_score": 0.1223,
+      "davies_bouldin_index": 1.6467,
+      "calinski_harabasz_score": 5.74
+    }
+  ],
+  "cluster_profiles": [
+    {
+      "cluster_id": 0,
+      "archetype": "Arquetipo I: Supervision Estable / Baja Incidencia",
+      "size": 24,
+      "pct_of_total": 61.5,
+      "mean_sanciones": 17.54,
+      "mean_infracciones": 84.42,
+      "mean_monto_dop": 6985607.33,
+      "mean_solicitudes_aml": 741.88
+    },
+    {
+      "cluster_id": 1,
+      "archetype": "Arquetipo II: Vigilancia Regular / Conducta Moderada",
+      "size": 15,
+      "pct_of_total": 38.5,
+      "mean_sanciones": 36.53,
+      "mean_infracciones": 183.47,
+      "mean_monto_dop": 2612141.2,
+      "mean_solicitudes_aml": 432.6
+    }
+  ],
+  "pca_explained_variance_ratio": [
+    0.19080227908546185,
+    0.16591691052028515,
+    0.12906457718939743
+  ],
+  "total_explained_variance_3d": 0.4858
+}

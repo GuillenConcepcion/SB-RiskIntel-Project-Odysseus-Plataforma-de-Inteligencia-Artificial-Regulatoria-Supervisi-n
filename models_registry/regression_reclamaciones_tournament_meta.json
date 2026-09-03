@@ -1,0 +1,81 @@
+{
+  "task": "regression_reclamaciones",
+  "champion": "Ridge_Regression",
+  "features": [
+    "month_num",
+    "month_sin",
+    "month_cos",
+    "quarter",
+    "time_step",
+    "reclamaciones_lag_1",
+    "reclamaciones_lag_2",
+    "reclamaciones_lag_3",
+    "reclamaciones_lag_6",
+    "monto_devolver_lag_1",
+    "monto_devolver_lag_2",
+    "monto_devolver_lag_3",
+    "reclamaciones_roll_mean_3m",
+    "reclamaciones_roll_std_3m",
+    "monto_devolver_roll_mean_3m",
+    "monto_devolver_roll_std_3m"
+  ],
+  "total_samples": 71,
+  "leaderboard": [
+    {
+      "model_name": "Ridge_Regression",
+      "wape": 0.046,
+      "mae": 25.35,
+      "rmse": 29.23,
+      "r2_score": 0.6851,
+      "forecast_efficiency_score": 95.4
+    },
+    {
+      "model_name": "ExtraTrees_Regressor",
+      "wape": 0.072,
+      "mae": 39.67,
+      "rmse": 49.68,
+      "r2_score": 0.09,
+      "forecast_efficiency_score": 92.8
+    },
+    {
+      "model_name": "RandomForest_Regressor",
+      "wape": 0.0753,
+      "mae": 41.51,
+      "rmse": 49.56,
+      "r2_score": 0.0945,
+      "forecast_efficiency_score": 92.47
+    },
+    {
+      "model_name": "HistGradientBoosting_Regressor",
+      "wape": 0.1373,
+      "mae": 75.66,
+      "rmse": 88.97,
+      "r2_score": -1.9182,
+      "forecast_efficiency_score": 86.27
+    },
+    {
+      "model_name": "LightGBM_Regressor",
+      "wape": 0.1459,
+      "mae": 80.4,
+      "rmse": 93.76,
+      "r2_score": -2.2411,
+      "forecast_efficiency_score": 85.41
+    },
+    {
+      "model_name": "MultiLayerPerceptron_Regressor",
+      "wape": 0.1676,
+      "mae": 92.38,
+      "rmse": 106.61,
+      "r2_score": -3.1901,
+      "forecast_efficiency_score": 83.24
+    },
+    {
+      "model_name": "SupportVector_Regressor",
+      "wape": 0.2384,
+      "mae": 131.42,
+      "rmse": 140.3,
+      "r2_score": -6.2569,
+      "forecast_efficiency_score": 76.16
+    }
+  ]
+}

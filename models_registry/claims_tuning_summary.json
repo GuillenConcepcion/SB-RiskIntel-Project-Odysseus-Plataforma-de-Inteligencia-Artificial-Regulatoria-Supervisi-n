@@ -1,0 +1,17 @@
+{
+  "task": "hyperparameter_tuning_claims_forecast",
+  "model": "Tuned_LightGBM_Regressor",
+  "holdout_wape": 0.1195,
+  "holdout_mae": 65.87,
+  "holdout_r2": -1.132,
+  "best_params": {
+    "subsample": 0.7,
+    "reg_lambda": 0.1,
+    "reg_alpha": 1.0,
+    "num_leaves": 10,
+    "n_estimators": 150,
+    "max_depth": 4,
+    "learning_rate": 0.08,
+    "colsample_bytree": 0.7
+  }
+}

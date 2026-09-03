@@ -12,6 +12,7 @@ services:
     environment:
       - ENVIRONMENT=production
       - API_PORT=8000
+      - REDIS_URL=redis://redis:6379/0
     volumes:
       - ./data/processed:/app/data/processed:ro
       - ./models_registry:/app/models_registry:ro
@@ -20,6 +21,8 @@ services:
       interval: 30s
       timeout: 10s
       retries: 3
+    depends_on:
+      - redis
 
   dashboard:
     build:
@@ -29,8 +32,20 @@ services:
     restart: unless-stopped
     ports:
       - "8501:8501"
+    environment:
+      - REDIS_URL=redis://redis:6379/0
     depends_on:
       - api
+      - redis
     volumes:
       - ./data/processed:/app/data/processed:ro
       - ./models_registry:/app/models_registry:ro
+
+  redis:
+    image: redis:7-alpine
+    container_name: sb-riskintel-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    command: redis-server --save 60 1 --loglevel warning
+

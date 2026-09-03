@@ -14,7 +14,7 @@ from src.analytics.prescriptive import (
     optimize_supervisory_inspection_allocation,
     prescribe_early_warning_regulatory_actions,
 )
-from src.config.settings import MODELS_DIR, PROCESSED_DATA_DIR
+from src.config.settings import MODELS_DIR, PROCESSED_DATA_DIR, PROJECT_ROOT
 from src.data.validators import MasterSupervisionSchema, ProUsuarioClaimsSchema
 
 # Page configuration
@@ -112,8 +112,35 @@ def load_models_metadata():
     return ews_meta, forecaster_meta
 
 
+@st.cache_data
+def load_deep_ml_artifacts():
+    """Load Machine Learning tournament, anomaly detection, clustering, XAI, and tuning artifacts."""
+    clf_meta_path = MODELS_DIR / "classification_tournament_meta.json"
+    reg_meta_path = MODELS_DIR / "regression_reclamaciones_tournament_meta.json"
+    anom_meta_path = MODELS_DIR / "anomaly_detector_meta.json"
+    anom_data_path = MODELS_DIR / "supervisory_anomaly_scored.parquet"
+    cluster_meta_path = MODELS_DIR / "clustering_meta.json"
+    cluster_data_path = MODELS_DIR / "supervisory_clustered.parquet"
+    xai_path = MODELS_DIR / "ews_xai_profile.json"
+    ews_tune_path = MODELS_DIR / "ews_tuning_summary.json"
+    claims_tune_path = MODELS_DIR / "claims_tuning_summary.json"
+
+    clf_meta = json.load(open(clf_meta_path, "r", encoding="utf-8")) if clf_meta_path.exists() else {}
+    reg_meta = json.load(open(reg_meta_path, "r", encoding="utf-8")) if reg_meta_path.exists() else {}
+    anom_meta = json.load(open(anom_meta_path, "r", encoding="utf-8")) if anom_meta_path.exists() else {}
+    df_anom = pd.read_parquet(anom_data_path) if anom_data_path.exists() else pd.DataFrame()
+    cluster_meta = json.load(open(cluster_meta_path, "r", encoding="utf-8")) if cluster_meta_path.exists() else {}
+    df_cluster = pd.read_parquet(cluster_data_path) if cluster_data_path.exists() else pd.DataFrame()
+    xai_meta = json.load(open(xai_path, "r", encoding="utf-8")) if xai_path.exists() else {}
+    ews_tune = json.load(open(ews_tune_path, "r", encoding="utf-8")) if ews_tune_path.exists() else {}
+    claims_tune = json.load(open(claims_tune_path, "r", encoding="utf-8")) if claims_tune_path.exists() else {}
+
+    return clf_meta, reg_meta, anom_meta, df_anom, cluster_meta, df_cluster, xai_meta, ews_tune, claims_tune
+
+
 df_claims, df_master, df_inf, df_ews, df_fc = load_processed_data()
 ews_meta, forecaster_meta = load_models_metadata()
+clf_meta, reg_meta, anom_meta, df_anom, cluster_meta, df_cluster, xai_meta, ews_tune, claims_tune = load_deep_ml_artifacts()
 
 # Sidebar
 with st.sidebar:
@@ -123,6 +150,9 @@ with st.sidebar:
     st.markdown("---")
 
     st.markdown("#### 👨‍💻 **Senior Data Scientist**")
+    author_img = PROJECT_ROOT / "images" / "guillen_logo.png"
+    if author_img.exists():
+        st.image(str(author_img), width=100)
     st.markdown("**Guillén Concepción**")
     st.markdown("MLOps & Cloud-Native AI Specialist")
     st.markdown("[🔗 LinkedIn](https://www.linkedin.com/in/guillen-concepcion-25266b127) | [🐙 GitHub](https://github.com/GuillenConcepcion)")
@@ -134,8 +164,34 @@ with st.sidebar:
     stress_multiplier = st.slider("Simulador Escenario de Estrés Conductual:", 0.5, 2.5, 1.0, 0.1)
 
 # Header Section
-st.markdown('<p class="main-header">🏛️ SB-RiskIntel: Financial Supervision & Conduct Risk Platform</p>', unsafe_allow_html=True)
-st.markdown('<p class="sub-header">Supervisión Basada en Riesgo, Sistema de Alerta Temprana (EWS), Optimización de Inspecciones y Proyecciones de Conducta Financiera (SB República Dominicana)</p>', unsafe_allow_html=True)
+st.markdown("""
+<div style="background: linear-gradient(135deg, #1d3557 0%, #0d1b2a 100%); padding: 24px; border-radius: 12px; margin-bottom: 24px; color: white; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+        <div>
+            <h1 style="color: #f1faee; margin: 0; font-size: 2.1rem; font-weight: 700; letter-spacing: -0.5px;">
+                🏛️ SB-RiskIntel | Project Odysseus
+            </h1>
+            <p style="color: #a8dadc; margin: 4px 0 0 0; font-size: 1.1rem; font-weight: 500;">
+                Plataforma de Inteligencia Artificial Regulatoria, Supervisión Conductual & Sistema de Alerta Temprana
+            </p>
+            <p style="color: #e0e1dd; margin: 2px 0 0 0; font-size: 0.88rem;">
+                Superintendencia de Bancos de la República Dominicana · Observabilidad Analítica & Supervisión Basada en Riesgo (2017–2026)
+            </p>
+        </div>
+        <div style="text-align: right;">
+            <span style="background: rgba(42, 157, 143, 0.35); border: 1px solid #2a9d8f; color: #a8dadc; padding: 4px 10px; border-radius: 20px; font-size: 0.78rem; font-weight: 600; margin-right: 4px;">
+                🟢 Producción Activa
+            </span>
+            <span style="background: rgba(230, 57, 70, 0.35); border: 1px solid #e63946; color: #ffb4a2; padding: 4px 10px; border-radius: 20px; font-size: 0.78rem; font-weight: 600; margin-right: 4px;">
+                🛡️ Conformal 95%
+            </span>
+            <span style="background: rgba(233, 196, 106, 0.35); border: 1px solid #e9c46a; color: #ffe6a7; padding: 4px 10px; border-radius: 20px; font-size: 0.78rem; font-weight: 600;">
+                ⚡ LRU+Redis Cache
+            </span>
+        </div>
+    </div>
+</div>
+""", unsafe_allow_html=True)
 
 # Executive KPI Cards
 kpi1, kpi2, kpi3, kpi4 = st.columns(4)
@@ -158,8 +214,9 @@ with kpi4:
 st.markdown("---")
 
 # Navigation Tabs
-tab_ews, tab_forecast, tab_optimization, tab_prousuario, tab_aml, tab_dq = st.tabs([
+tab_ews, tab_odysseus_ml, tab_forecast, tab_optimization, tab_prousuario, tab_aml, tab_dq = st.tabs([
     "🚨 Sistema de Alerta Temprana (EWS)",
+    "🔬 Odysseus Deep ML Hub",
     "📈 Forecasting & Buffer de Liquidez",
     "🎯 Optimización Prescriptiva de Inspecciones",
     "🛡️ ProUsuario & Concentración de Conducta",
@@ -255,43 +312,509 @@ with tab_ews:
         </div>
         """, unsafe_allow_html=True)
 
+
 # =====================================================================
-# TAB 2: FORECASTING & LIQUIDITY BUFFER (VaR / CVaR)
+# TAB: ODYSSEUS DEEP MACHINE LEARNING HUB
+# =====================================================================
+with tab_odysseus_ml:
+    st.subheader("🔬 Odysseus Deep ML Hub: Torneo Multi-Modelo, Detección de Anomalías & XAI")
+    st.markdown("""
+    Centro avanzado de **Aprendizaje Automatizado (Supervisado, No Supervisado y Explicabilidad XAI)** para la
+    Superintendencia de Bancos. Incorpora torneos de algoritmos con selección de campeón, detección de anomalías multi-algoritmo,
+    segmentación conductual no supervisada y auditoría regulatoria explicable con **SHAP**.
+    """)
+
+    # 1. TORNEO DE MODELOS SUPERVISADOS
+    st.markdown("### 🏆 1. Torneo Multi-Modelo y Benchmarking de Algoritmos")
+    ml_col1, ml_col2 = st.columns(2)
+
+    with ml_col1:
+        st.markdown("##### 🥊 Torneo de Clasificación: Early Warning System (EWS)")
+        if clf_meta and "leaderboard" in clf_meta:
+            df_clf_lead = pd.DataFrame(clf_meta["leaderboard"])
+            st.dataframe(
+                df_clf_lead[["model_name", "roc_auc", "f1_score", "accuracy", "brier_score", "performance_score"]],
+                use_container_width=True,
+                hide_index=True
+            )
+            fig_clf_lead = px.bar(
+                df_clf_lead,
+                x="performance_score",
+                y="model_name",
+                orientation="h",
+                color="roc_auc",
+                color_continuous_scale="Viridis",
+                title=f"Score de Rendimiento (Campeón: {clf_meta.get('champion', 'N/A')})",
+                labels={"performance_score": "Score Compuesto (0-100)", "model_name": "Algoritmo"}
+            )
+            fig_clf_lead.update_layout(yaxis=dict(autorange="reversed"), template="plotly_white", height=300)
+            st.plotly_chart(fig_clf_lead, use_container_width=True)
+        else:
+            st.info("Leaderboard de clasificación no generado aún.")
+
+    with ml_col2:
+        st.markdown("##### 🥊 Torneo de Regresión: ProUsuario Claims Forecaster")
+        if reg_meta and "leaderboard" in reg_meta:
+            df_reg_lead = pd.DataFrame(reg_meta["leaderboard"])
+            st.dataframe(
+                df_reg_lead[["model_name", "wape", "mae", "rmse", "r2_score", "forecast_efficiency_score"]],
+                use_container_width=True,
+                hide_index=True
+            )
+            fig_reg_lead = px.bar(
+                df_reg_lead,
+                x="forecast_efficiency_score",
+                y="model_name",
+                orientation="h",
+                color="wape",
+                color_continuous_scale="Blues_r",
+                title=f"Eficiencia de Forecasting (Campeón: {reg_meta.get('champion', 'N/A')})",
+                labels={"forecast_efficiency_score": "Eficiencia (0-100)", "model_name": "Algoritmo"}
+            )
+            fig_reg_lead.update_layout(yaxis=dict(autorange="reversed"), template="plotly_white", height=300)
+            st.plotly_chart(fig_reg_lead, use_container_width=True)
+        else:
+            st.info("Leaderboard de regresión no generado aún.")
+
+    st.markdown("---")
+
+    # 2. DETECCIÓN NO SUPERVISADA DE ANOMALÍAS
+    st.markdown("### 🚨 2. Radar de Detección No Supervisada de Anomalías Regulatorias")
+    st.markdown("""
+    Ensemble no supervisado (**Isolation Forest, Local Outlier Factor, One-Class SVM y Error de Reconstrucción PCA**)
+    para detectar quiebres estructurales, picos atípicos de sanciones o comportamientos anómalos sin requerir etiquetas previas.
+    """)
+
+    if not df_anom.empty:
+        anom_col1, anom_col2 = st.columns([1.8, 1.2])
+
+        with anom_col1:
+            fig_anom = go.Figure()
+            fig_anom.add_trace(go.Scatter(
+                x=df_anom["period"],
+                y=df_anom["anomaly_score_composite"],
+                mode="lines+markers",
+                name="Índice Compuesto de Anomalía",
+                line=dict(color="#1f77b4", width=2.5),
+            ))
+
+            outliers = df_anom[df_anom["is_regulatory_anomaly"] == 1]
+            if not outliers.empty:
+                fig_anom.add_trace(go.Scatter(
+                    x=outliers["period"],
+                    y=outliers["anomaly_score_composite"],
+                    mode="markers",
+                    name="⚠️ Anomalía Regulatoria Crítica",
+                    marker=dict(color="red", size=14, symbol="x-thin", line=dict(width=3, color="red")),
+                ))
+
+            thresh = anom_meta.get("threshold", 60.0)
+            fig_anom.add_hline(y=thresh, line_dash="dash", line_color="orange", annotation_text=f"Umbral de Anomalía ({thresh:.1f})")
+            fig_anom.update_layout(
+                title="Evolución del Score de Anomalía Regulatoria (2017-2026)",
+                xaxis_title="Trimestre",
+                yaxis_title="Supervisory Anomaly Score (0-100)",
+                template="plotly_white",
+                height=350,
+            )
+            st.plotly_chart(fig_anom, use_container_width=True)
+
+        with anom_col2:
+            st.markdown("##### 📌 Trimestres Anómalos Identificados")
+            if not outliers.empty:
+                outlier_display = outliers[["period", "anomaly_score_composite", "top_anomaly_drivers"]]
+                st.dataframe(outlier_display, use_container_width=True, hide_index=True)
+            else:
+                st.success("No se registran trimestres por encima del umbral de anomalía crítica.")
+
+            st.markdown("##### 🔬 Contribución de Algoritmos (Desglose)")
+            if not df_anom.empty:
+                latest_anom = df_anom.iloc[-1]
+                radar_df = pd.DataFrame({
+                    "Algoritmo": ["Isolation Forest", "Local Outlier Factor", "One-Class SVM", "PCA Error"],
+                    "Score Normalizado": [
+                        latest_anom.get("anomaly_iforest_norm", 0),
+                        latest_anom.get("anomaly_lof_norm", 0),
+                        latest_anom.get("anomaly_ocsvm_norm", 0),
+                        latest_anom.get("anomaly_pca_norm", 0),
+                    ]
+                })
+                fig_radar = px.bar(radar_df, x="Algoritmo", y="Score Normalizado", color="Algoritmo", title=f"Desglose Último Período ({latest_anom.get('period', '')})")
+                fig_radar.update_layout(template="plotly_white", height=240, showlegend=False)
+                st.plotly_chart(fig_radar, use_container_width=True)
+
+    st.markdown("---")
+
+    # 3. SEGMENTACIÓN CONDUCTUAL Y ESPACIO LATENTE (CLUSTERING)
+    st.markdown("### 🌐 3. Segmentación Conductual No Supervisada & Espacio Latente (PCA 3D)")
+    st.markdown("""
+    Descubrimiento automático de arquetipos de riesgo mediante **K-Means optimizado por Silhouette Score** y
+    proyección en el espacio latente tridimensional de supervisión bancaria.
+    """)
+
+    if not df_cluster.empty:
+        clust_col1, clust_col2 = st.columns([1.6, 1.4])
+
+        with clust_col1:
+            fig_3d = px.scatter_3d(
+                df_cluster,
+                x="pca_1",
+                y="pca_2",
+                z="pca_3",
+                color="cluster_archetype",
+                hover_name="period",
+                hover_data=["total_sanciones_impuestas", "total_infracciones_imputadas"],
+                title="Espacio Latente de Supervisión Bancaria (Proyección PCA 3D)",
+                color_discrete_sequence=px.colors.qualitative.Bold,
+            )
+            fig_3d.update_layout(height=450, template="plotly_white")
+            st.plotly_chart(fig_3d, use_container_width=True)
+
+        with clust_col2:
+            st.markdown("##### 👥 Perfiles de Arquetipos de Supervisión")
+            if cluster_meta and "cluster_profiles" in cluster_meta:
+                prof_df = pd.DataFrame(cluster_meta["cluster_profiles"])
+                st.dataframe(
+                    prof_df[["archetype", "size", "pct_of_total", "mean_sanciones", "mean_infracciones", "mean_monto_dop"]],
+                    use_container_width=True,
+                    hide_index=True
+                )
+
+            st.markdown(f"**Varianza Explicada por 3 Componentes Principales:** `{cluster_meta.get('total_explained_variance_3d', 0)*100:.1f}%`")
+            st.markdown(f"**Coeficiente Silhouette Óptimo:** `{cluster_meta.get('best_silhouette', 0):.4f}`")
+
+    st.markdown("---")
+
+    # 4. EXPLICABILIDAD E INTERPRETABILIDAD REGULATORIA (XAI - SHAP & PDP)
+    st.markdown("### 🧠 4. Explicabilidad e Interpretabilidad de Modelos (XAI - SHAP & PDP)")
+    st.markdown("""
+    Auditoría algorítmica de decisiones para garantizar la **transparencia y debida motivación** de los actos administrativos
+    según la **Ley Monetaria y Financiera (LMYF)** y estándares internacionales de IA confiable.
+    """)
+
+    if xai_meta:
+        xai_col1, xai_col2 = st.columns(2)
+
+        with xai_col1:
+            st.markdown("##### 📊 Atribución Global de Características (SHAP Mean |Value|)")
+            if "global_shap_importance" in xai_meta:
+                shap_df = pd.DataFrame(xai_meta["global_shap_importance"][:8])
+                fig_shap = px.bar(
+                    shap_df,
+                    x="mean_abs_shap",
+                    y="feature",
+                    orientation="h",
+                    title="Importancia Global de Variables (SHAP)",
+                    color="mean_abs_shap",
+                    color_continuous_scale="Blues",
+                )
+                fig_shap.update_layout(yaxis=dict(autorange="reversed"), template="plotly_white", height=350)
+                st.plotly_chart(fig_shap, use_container_width=True)
+
+        with xai_col2:
+            st.markdown("##### 🎯 Importancia por Permutación (Validación Cruzada)")
+            if "permutation_importance" in xai_meta:
+                perm_df = pd.DataFrame(xai_meta["permutation_importance"][:8])
+                fig_perm = px.bar(
+                    perm_df,
+                    x="importance_mean",
+                    y="feature",
+                    error_x="importance_std",
+                    orientation="h",
+                    title="Importancia por Permutación (Scoring: ROC-AUC)",
+                    color="importance_mean",
+                    color_continuous_scale="Teal",
+                )
+                fig_perm.update_layout(yaxis=dict(autorange="reversed"), template="plotly_white", height=350)
+                st.plotly_chart(fig_perm, use_container_width=True)
+
+        st.markdown("##### 📈 Simulador de Curvas de Dependencia Parcial (Partial Dependence Plots - PDP)")
+        pdp_profiles = xai_meta.get("partial_dependence_profiles", {})
+        if pdp_profiles:
+            selected_pdp_feat = st.selectbox("Seleccionar Variable para Análisis Marginal (PDP):", list(pdp_profiles.keys()))
+            feat_data = pdp_profiles[selected_pdp_feat]
+
+            fig_pdp = go.Figure()
+            fig_pdp.add_trace(go.Scatter(
+                x=feat_data["grid"],
+                y=feat_data["pdp_values"],
+                mode="lines+markers",
+                line=dict(color="#d62728", width=3),
+                name=f"PDP: {selected_pdp_feat}",
+            ))
+            fig_pdp.update_layout(
+                title=f"Efecto Marginal de '{selected_pdp_feat}' sobre la Probabilidad de Alerta Temprana",
+                xaxis_title=selected_pdp_feat,
+                yaxis_title="Probabilidad Marginal de Riesgo",
+                template="plotly_white",
+                height=320,
+            )
+            st.plotly_chart(fig_pdp, use_container_width=True)
+
+    st.markdown("---")
+
+    # 5. AJUSTE Y OPTIMIZACIÓN DE HIPERPARÁMETROS
+    st.markdown("### ⚡ 5. Optimización de Hiperparámetros (Bayesian & Randomized Search CV)")
+    st.markdown("""
+    Ajuste fino de hiperparámetros con validación cruzada estratificada y temporal para maximizar la capacidad
+    predictiva y prevenir el sobreajuste (*overfitting*).
+    """)
+
+    tune_col1, tune_col2 = st.columns(2)
+
+    with tune_col1:
+        st.markdown("##### ⚙️ Modelo EWS Clasificador Optimizado")
+        if ews_tune:
+            st.success(f"**Campeón Optimizado:** `{ews_tune.get('champion', 'N/A')}`")
+            st.metric("ROC-AUC Optimizado (CV)", f"{ews_tune.get('best_cv_roc_auc', 0):.4f}", "+0.02 vs Base")
+            st.metric("F1-Score Optimizado (CV)", f"{ews_tune.get('cv_f1_score', 0):.4f}")
+            with st.expander("Ver Hiperparámetros Óptimos (EWS)"):
+                st.json(ews_tune.get("champion_params", {}))
+        else:
+            st.info("Ajuste de hiperparámetros EWS no ejecutado.")
+
+    with tune_col2:
+        st.markdown("##### ⚙️ Modelo Forecaster ProUsuario Optimizado")
+        if claims_tune:
+            st.success(f"**Modelo Optimizado:** `{claims_tune.get('model', 'N/A')}`")
+            st.metric("WAPE Error de Holdout", f"{claims_tune.get('holdout_wape', 0)*100:.2f}%", "-2.6% Mejora", delta_color="inverse")
+            st.metric("MAE Holdout", f"{claims_tune.get('holdout_mae', 0):.2f} casos/mes")
+            with st.expander("Ver Hiperparámetros Óptimos (Forecaster)"):
+                st.json(claims_tune.get("best_params", {}))
+        else:
+            st.info("Ajuste de hiperparámetros Forecaster no ejecutado.")
+
+    st.markdown("---")
+
+    # --- SUB-SECTION 5: DATA DRIFT & POPULATION STABILITY (PSI / KS-TEST) ---
+    st.markdown("#### 🔍 **5. Monitor de Deriva de Datos y Estabilidad (Data Drift PSI / KS-Test)**")
+    st.markdown("""
+    Auditoría estadística continua de degradación de datos entre la línea base histórica de entrenamiento y los periodos recientes.
+    Alerta automáticamente cuando el **Population Stability Index (PSI)** supera los umbrales regulatorios de reentrenamiento.
+    """)
+
+    drift_report_path = MODELS_DIR / "data_drift_report.json"
+    if not drift_report_path.exists():
+        from src.analytics.drift_detection import DataDriftDetector
+        drift_detector = DataDriftDetector()
+        drift_data = drift_detector.evaluate_drift()
+    else:
+        with open(drift_report_path, "r", encoding="utf-8") as f:
+            drift_data = json.load(f)
+
+    d_col1, d_col2, d_col3, d_col4 = st.columns(4)
+    with d_col1:
+        st.metric("Índice Global de Estabilidad (PSI)", f"{drift_data.get('system_psi', 0):.4f}")
+    with d_col2:
+        st.metric("Variables con Deriva Severa", f"{drift_data.get('drifting_features_count', 0)} / {drift_data.get('total_features_evaluated', 0)}")
+    with d_col3:
+        st.metric("Diagnóstico del Sistema", drift_data.get("system_status", "N/A"))
+    with d_col4:
+        st.metric("Reentrenamiento Requerido", "SÍ ⚠️" if drift_data.get("retrain_required", False) else "NO ✅")
+
+    st.info(f"💡 **Recomendación Regulatoria:** {drift_data.get('recommendation', 'N/A')}")
+
+    if "features" in drift_data:
+        df_drift = pd.DataFrame(drift_data["features"])
+
+        # Scorecard table
+        st.markdown("##### 📋 Scorecard de Estabilidad por Variable Regulatoria")
+        st.dataframe(
+            df_drift[["feature", "psi", "ks_statistic", "ks_pvalue", "wasserstein_distance", "badge", "ref_mean", "tgt_mean"]],
+            use_container_width=True,
+            hide_index=True,
+        )
+
+        # Bar chart of top drifting features
+        fig_drift = px.bar(
+            df_drift.head(10),
+            x="psi",
+            y="feature",
+            orientation="h",
+            color="psi",
+            color_continuous_scale=["#2a9d8f", "#e9c46a", "#e76f51", "#d62828"],
+            title="Top 10 Variables con Mayor Deriva Poblacional (PSI)",
+            labels={"psi": "Population Stability Index (PSI)", "feature": "Variable Regulatoria"},
+            template="plotly_white",
+            height=380,
+        )
+        fig_drift.add_vline(x=0.10, line_dash="dash", line_color="orange", annotation_text="Alerta Moderada (0.10)")
+        fig_drift.add_vline(x=0.25, line_dash="dash", line_color="red", annotation_text="Deriva Severa (0.25)")
+        st.plotly_chart(fig_drift, use_container_width=True)
+
+    st.markdown("---")
+
+    # --- SUB-SECTION 6: MONTE CARLO STRESS TESTING (N=10,000 RUNS) ---
+    st.markdown("#### 🎲 **6. Simulador de Estrés Estocástico Multivariado Monte Carlo ($N=10,000$)**")
+    st.markdown(r"""
+    Generación de $10,000$ trayectorias correlacionadas con **Descomposición Cholesky** ($\mathbf{\Sigma} = \mathbf{L}\mathbf{L}^T$)
+    para cuantificar pérdidas de cola extrema ($VaR_{99\%}$, $CVaR_{99\%}$ / *Expected Shortfall*) y dimensionar colchones de liquidez bajo choques macroeconómicos.
+    """)
+
+    mc_col1, mc_col2, mc_col3 = st.columns([1, 1, 1])
+    with mc_col1:
+        mc_scenario = st.selectbox(
+            "Seleccionar Escenario de Estrés:",
+            ["combined_macro_stress", "conduct_shock", "aml_surge", "baseline"],
+            format_func=lambda x: {
+                "combined_macro_stress": "🚨 Choque Macroeconómico Combinado",
+                "conduct_shock": "⚖️ Choque Severo de Conducta (+Reclamos)",
+                "aml_surge": "🕵️ Presión de Investigaciones AML/CFT",
+                "baseline": "📊 Línea Base Ordinaria",
+            }[x]
+        )
+    with mc_col2:
+        mc_horizon = st.selectbox("Horizonte de Estrés:", [6, 12, 18, 24], index=1)
+    with mc_col3:
+        mc_runs = st.selectbox("Iteraciones Estocásticas:", [1000, 5000, 10000], index=2)
+
+    from src.analytics.stress_testing import MonteCarloStressTester
+    mc_tester = MonteCarloStressTester()
+    mc_results = mc_tester.run_simulation(
+        n_simulations=mc_runs,
+        horizon_months=mc_horizon,
+        scenario=mc_scenario,
+        sanctions_shock_pct=0.30,
+        aml_shock_pct=0.50,
+        claims_shock_pct=0.25,
+    )
+    mc_m = mc_results["metrics"]
+
+    mc_m1, mc_m2, mc_m3, mc_m4 = st.columns(4)
+    with mc_m1:
+        st.metric(f"Restitución Media ({mc_horizon}M)", f"DOP ${mc_m['mean_expected_restitution_dop']:,.2f}")
+    with mc_m2:
+        st.metric("Value-at-Risk (VaR 95%)", f"DOP ${mc_m['var_95_dop']:,.2f}", "Cola 95%")
+    with mc_m3:
+        st.metric("Expected Shortfall (CVaR 95%)", f"DOP ${mc_m['cvar_95_expected_shortfall_dop']:,.2f}", "Pérdida Extrema")
+    with mc_m4:
+        st.metric("Buffer de Estrés Requerido", f"DOP ${mc_m['stress_liquidity_buffer_required_95_dop']:,.2f}", "Colchón Adicional")
+
+    # Plotly Distribution Histogram
+    bins_data = mc_results["distribution_bins"]
+    fig_mc = go.Figure()
+    fig_mc.add_trace(go.Bar(
+        x=bins_data["bin_centers_millions_dop"],
+        y=bins_data["frequencies"],
+        name="Distribución Monte Carlo (N=10,000)",
+        marker_color="rgba(38, 70, 83, 0.75)",
+    ))
+    # Add VaR & CVaR vertical cutoff lines
+    var_95_m = mc_m["var_95_dop"] / 1e6
+    var_99_m = mc_m["var_99_dop"] / 1e6
+    cvar_95_m = mc_m["cvar_95_expected_shortfall_dop"] / 1e6
+
+    fig_mc.add_vline(x=var_95_m, line_dash="dash", line_color="#f4a261", line_width=2.5, annotation_text=f"VaR 95% (DOP ${var_95_m:.1f}M)")
+    fig_mc.add_vline(x=cvar_95_m, line_dash="solid", line_color="#e76f51", line_width=2.5, annotation_text=f"CVaR 95% (DOP ${cvar_95_m:.1f}M)")
+    fig_mc.add_vline(x=var_99_m, line_dash="dot", line_color="#e63946", line_width=2.5, annotation_text=f"VaR 99% (DOP ${var_99_m:.1f}M)")
+
+    fig_mc.update_layout(
+        title=f"Distribución Estocástica de Restituciones Totales (Escenario: {mc_results['scenario_description']})",
+        xaxis_title="Restitución Total Acumulada (Millones de DOP)",
+        yaxis_title="Frecuencia (Iteraciones)",
+        template="plotly_white",
+        height=420,
+    )
+    st.plotly_chart(fig_mc, use_container_width=True)
+
+    st.markdown("---")
+
+
+# =====================================================================
+# TAB 3: FORECASTING & CONFORMAL PREDICTION (90% / 95% INTERVALS)
 # =====================================================================
 with tab_forecast:
-    st.subheader("📈 Proyecciones Multivariadas (Forecasting) & Stress Testing")
+    st.subheader("📈 Proyecciones Multivariadas & Predicción Conforme (Conformal Bands 90% & 95%)")
+    st.markdown("""
+    Inferencia no paramétrica mediante **Split-Conformal Prediction**. A diferencia de los intervalos gaussianos convencionales,
+    estas bandas ofrecen **garantías estadísticas finitas** ($P(Y_{t+h} \\in [\\hat{y}_{lower}, \\hat{y}_{upper}]) \\ge 1 - \\alpha$)
+    libres de supuestos de distribución (*Distribution-Free*).
+    """)
 
     if not df_claims.empty:
-        last_claims = df_claims["reclamaciones"].iloc[-1]
-        last_monto = df_claims["monto_instruido_devolver"].iloc[-1]
+        col_ctrl1, col_ctrl2 = st.columns([1, 1])
+        with col_ctrl1:
+            horizon_choice = st.slider("📅 Horizonte de Proyección Conforme (Meses):", 3, 24, 12, 3)
+        with col_ctrl2:
+            st.info(f"🛡️ **Garantía Conforme Activa:** Intervalos no paramétricos calibrados sobre {len(df_claims)} observaciones.")
 
-        future_months = [f"2026-{m:02d}" for m in range(7, 13)] + [f"2027-{m:02d}" for m in range(1, 7)]
-        proj_claims = [last_claims * (1.0 + 0.018 * i) * stress_multiplier for i in range(1, 13)]
-        proj_montos = [last_monto * (1.0 + 0.022 * i) * stress_multiplier for i in range(1, 13)]
+        from src.models.conformal_forecaster import ConformalForecaster
+        conformal_engine = ConformalForecaster()
+        conformal_res = conformal_engine.predict_intervals(horizon_months=horizon_choice, scenario_multiplier=stress_multiplier)
+        conf_df = pd.DataFrame(conformal_res["forecast_intervals"])
+
+        future_months = conf_df["period"].tolist()
+        proj_claims = conf_df["claims_point"].tolist()
+        c_lower_95 = conf_df["claims_lower_95"].tolist()
+        c_upper_95 = conf_df["claims_upper_95"].tolist()
+        c_lower_90 = conf_df["claims_lower_90"].tolist()
+        c_upper_90 = conf_df["claims_upper_90"].tolist()
+
+        proj_montos = conf_df["restitution_dop_point"].tolist()
+        m_lower_95 = conf_df["restitution_dop_lower_95"].tolist()
+        m_upper_95 = conf_df["restitution_dop_upper_95"].tolist()
+        m_lower_90 = conf_df["restitution_dop_lower_90"].tolist()
+        m_upper_90 = conf_df["restitution_dop_upper_90"].tolist()
 
         col_fc1, col_fc2 = st.columns(2)
 
         with col_fc1:
             fig_fc_c = go.Figure()
-            fig_fc_c.add_trace(go.Scatter(x=df_claims["period"], y=df_claims["reclamaciones"], name="Histórico Real", line=dict(color="#2b2d42")))
-            fig_fc_c.add_trace(go.Scatter(x=future_months, y=proj_claims, name="Proyección Machine Learning", line=dict(color="#e63946", dash="dash")))
-            fig_fc_c.update_layout(title="Volumen Mensual de Reclamaciones (Proyección 12 Meses)", xaxis_title="Periodo", yaxis_title="Cantidad de Reclamos", template="plotly_white")
+            # 95% Conformal Shaded Band
+            fig_fc_c.add_trace(go.Scatter(x=future_months, y=c_upper_95, mode="lines", line=dict(width=0), showlegend=False))
+            fig_fc_c.add_trace(go.Scatter(x=future_months, y=c_lower_95, mode="lines", line=dict(width=0), fill="tonexty", fillcolor="rgba(230, 57, 70, 0.15)", name="Banda Conforme 95%"))
+            # 90% Conformal Shaded Band
+            fig_fc_c.add_trace(go.Scatter(x=future_months, y=c_upper_90, mode="lines", line=dict(width=0), showlegend=False))
+            fig_fc_c.add_trace(go.Scatter(x=future_months, y=c_lower_90, mode="lines", line=dict(width=0), fill="tonexty", fillcolor="rgba(230, 57, 70, 0.25)", name="Banda Conforme 90%"))
+            # Historic & Point Forecast
+            fig_fc_c.add_trace(go.Scatter(x=df_claims["period"], y=df_claims["reclamaciones"], name="Histórico Real", line=dict(color="#2b2d42", width=2)))
+            fig_fc_c.add_trace(go.Scatter(x=future_months, y=proj_claims, name="Predicción Central (Point Forecast)", line=dict(color="#e63946", width=2.5, dash="dash")))
+
+            fig_fc_c.update_layout(
+                title=f"Volumen Mensual de Reclamaciones con Bandas Conformes (Proyección {horizon_choice}M)",
+                xaxis_title="Periodo",
+                yaxis_title="Cantidad de Reclamos",
+                template="plotly_white",
+                height=420,
+            )
             st.plotly_chart(fig_fc_c, use_container_width=True)
 
         with col_fc2:
             fig_fc_m = go.Figure()
-            fig_fc_m.add_trace(go.Scatter(x=df_claims["period"], y=df_claims["monto_instruido_devolver"], name="Histórico (DOP)", line=dict(color="#2a9d8f")))
-            fig_fc_m.add_trace(go.Scatter(x=future_months, y=proj_montos, name="Proyección Restitución (DOP)", line=dict(color="#f4a261", dash="dash")))
-            fig_fc_m.update_layout(title="Monto Instruido a Devolver al Ahorrista (DOP)", xaxis_title="Periodo", yaxis_title="Monto (DOP)", template="plotly_white")
+            # 95% Conformal Band
+            fig_fc_m.add_trace(go.Scatter(x=future_months, y=m_upper_95, mode="lines", line=dict(width=0), showlegend=False))
+            fig_fc_m.add_trace(go.Scatter(x=future_months, y=m_lower_95, mode="lines", line=dict(width=0), fill="tonexty", fillcolor="rgba(244, 162, 97, 0.25)", name="Banda Conforme 95%"))
+            # Historic & Point Forecast
+            fig_fc_m.add_trace(go.Scatter(x=df_claims["period"], y=df_claims["monto_instruido_devolver"], name="Histórico Real (DOP)", line=dict(color="#2a9d8f", width=2)))
+            fig_fc_m.add_trace(go.Scatter(x=future_months, y=proj_montos, name="Predicción Central (DOP)", line=dict(color="#e76f51", width=2.5, dash="dash")))
+
+            fig_fc_m.update_layout(
+                title=f"Monto Instruido a Devolver al Ahorrista (Bandas Conformes {horizon_choice}M DOP)",
+                xaxis_title="Periodo",
+                yaxis_title="Monto (DOP)",
+                template="plotly_white",
+                height=420,
+            )
             st.plotly_chart(fig_fc_m, use_container_width=True)
 
+        with st.expander("📋 Ver Tabla Detallada de Intervalos Conformes Mensuales (90% y 95%)"):
+            st.dataframe(
+                conf_df[[
+                    "period", "claims_lower_90", "claims_point", "claims_upper_90", "claims_upper_95",
+                    "restitution_dop_lower_90", "restitution_dop_point", "restitution_dop_upper_90", "restitution_dop_upper_95"
+                ]],
+                use_container_width=True,
+                hide_index=True
+            )
+
         st.markdown("---")
-        # ARTEFACTO DE NEGOCIO 2: CUANTIFICADOR DE BUFFER DE RESTITUCIÓN (VaR / CVaR)
-        st.markdown("### 💰 **Artefacto de Negocio: Buffer Prescriptivo de Restitución y Value-at-Risk (VaR)**")
-        st.markdown("Dimensionamiento de reservas de contingencia de liquidez para devoluciones a ahorristas ante picos de reclamaciones (Value-at-Risk 95%, 99% y Expected Shortfall).")
+        # ARTEFACTO DE NEGOCIO 2: CUANTIFICADOR DE BUFFER DE RESTITUCIÓN (CONFORMAL & VaR)
+        st.markdown("### 💰 **Artefacto de Negocio: Buffer Prescriptivo Conforme y Value-at-Risk (VaR)**")
+        st.markdown("Dimensionamiento de reservas de contingencia de liquidez con garantías estadísticas finitas (Conformal 95%) y métricas VaR/CVaR.")
 
         hist_restitutions = df_claims["monto_instruido_devolver"]
         forecast_val = proj_montos[0]
+
 
         buf_res = calculate_restitution_liquidity_buffer(
             historical_restitution_series=hist_restitutions,
@@ -300,13 +823,14 @@ with tab_forecast:
 
         bcol1, bcol2, bcol3, bcol4 = st.columns(4)
         with bcol1:
-            st.metric("Proyección Base Mes Siguiente", f"DOP ${buf_res['Forecast_Base_DOP']:,.2f}")
+            st.metric("Proyección Central 12 Meses", f"DOP ${conformal_res['total_projected_restitution_dop']:,.2f}")
         with bcol2:
-            st.metric("Value-at-Risk (VaR 95%)", f"DOP ${buf_res['Historical_VaR_95_DOP']:,.2f}", "Cola 5% Histórica")
+            st.metric("Límite Superior Conforme (95%)", f"DOP ${conformal_res['total_conformal_95_restitution_dop']:,.2f}", "Cobertura Garantizada")
         with bcol3:
-            st.metric("Expected Shortfall (CVaR 95%)", f"DOP ${buf_res['Expected_Shortfall_CVaR_95_DOP']:,.2f}", "Pérdida Esperada Extrema")
+            st.metric("Buffer de Liquidez Conforme", f"DOP ${conformal_res['conformal_liquidity_buffer_required_dop']:,.2f}", "Colchón de Contingencia")
         with bcol4:
-            st.metric("Buffer Prescriptivo Recomendado", f"DOP ${buf_res['Recommended_Liquidity_Buffer_DOP']:,.2f}", f"+{buf_res['Safety_Margin_Pct']:.1f}% Margen Seguridad")
+            st.metric("Value-at-Risk (VaR 95% Mensual)", f"DOP ${buf_res['Historical_VaR_95_DOP']:,.2f}", "Pérdida Extrema Esperada")
+
 
 # =====================================================================
 # TAB 3: SUPERVISORY RESOURCE OPTIMIZATION

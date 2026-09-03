@@ -1,0 +1,112 @@
+{
+  "task": "classification_ews",
+  "champion": "RandomForest",
+  "features": [
+    "total_infracciones_imputadas",
+    "total_sanciones_impuestas",
+    "monto_sanciones_dop",
+    "total_procesos_sancionadores",
+    "total_solicitudes_aml",
+    "total_inspecciones_eif",
+    "sanction_intensity",
+    "infraction_per_inspection",
+    "sanction_conversion_rate",
+    "aml_pressure_index",
+    "infracciones_lag_1",
+    "sanciones_lag_1",
+    "monto_sanciones_lag_1",
+    "aml_solicitudes_lag_1",
+    "procesos_sancionadores_lag_1",
+    "infracciones_lag_2",
+    "sanciones_lag_2",
+    "monto_sanciones_lag_2",
+    "aml_solicitudes_lag_2",
+    "procesos_sancionadores_lag_2",
+    "infracciones_roll_mean_4q",
+    "sanciones_roll_mean_4q",
+    "monto_sanciones_roll_mean_4q",
+    "aml_roll_mean_4q",
+    "infracciones_momentum",
+    "aml_momentum"
+  ],
+  "total_samples": 39,
+  "leaderboard": [
+    {
+      "model_name": "RandomForest",
+      "roc_auc": 0.7188,
+      "f1_score": 0.9014,
+      "accuracy": 0.8205,
+      "precision": 0.8205,
+      "recall": 1.0,
+      "brier_score": 0.1304,
+      "log_loss": 0.4363,
+      "performance_score": 76.05
+    },
+    {
+      "model_name": "ExtraTrees",
+      "roc_auc": 0.7009,
+      "f1_score": 0.8986,
+      "accuracy": 0.8205,
+      "precision": 0.8378,
+      "recall": 0.9688,
+      "brier_score": 0.1335,
+      "log_loss": 0.4273,
+      "performance_score": 74.68
+    },
+    {
+      "model_name": "LightGBM",
+      "roc_auc": 0.6786,
+      "f1_score": 0.9014,
+      "accuracy": 0.8205,
+      "precision": 0.8205,
+      "recall": 1.0,
+      "brier_score": 0.175,
+      "log_loss": 0.7436,
+      "performance_score": 72.79
+    },
+    {
+      "model_name": "SupportVectorClassifier",
+      "roc_auc": 0.5424,
+      "f1_score": 0.9143,
+      "accuracy": 0.8462,
+      "precision": 0.8421,
+      "recall": 1.0,
+      "brier_score": 0.1416,
+      "log_loss": 0.4603,
+      "performance_score": 63.98
+    },
+    {
+      "model_name": "HistGradientBoosting",
+      "roc_auc": 0.4643,
+      "f1_score": 0.9014,
+      "accuracy": 0.8205,
+      "precision": 0.8205,
+      "recall": 1.0,
+      "brier_score": 0.1486,
+      "log_loss": 0.4752,
+      "performance_score": 58.06
+    },
+    {
+      "model_name": "MultiLayerPerceptron",
+      "roc_auc": 0.4799,
+      "f1_score": 0.8438,
+      "accuracy": 0.7436,
+      "precision": 0.8438,
+      "recall": 0.8438,
+      "brier_score": 0.2276,
+      "log_loss": 1.2688,
+      "performance_score": 56.63
+    },
+    {
+      "model_name": "LogisticRegression_L2",
+      "roc_auc": 0.4643,
+      "f1_score": 0.8438,
+      "accuracy": 0.7436,
+      "precision": 0.8438,
+      "recall": 0.8438,
+      "brier_score": 0.1927,
+      "log_loss": 1.034,
+      "performance_score": 55.89
+    }
+  ]
+}

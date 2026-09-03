@@ -1,0 +1,28 @@
+{
+  "task": "conformal_prediction_calibration",
+  "method": "split_conformal_inference",
+  "calibration_samples": 17,
+  "total_samples": 71,
+  "guarantees": {
+    "coverage_levels": [
+      0.9,
+      0.95
+    ],
+    "distribution_free": true,
+    "finite_sample_valid": true
+  },
+  "quantiles": {
+    "reclamaciones": {
+      "q90": 103.63,
+      "q95": 103.63,
+      "mean_residual_calib": 42.26,
+      "max_residual_calib": 103.63
+    },
+    "monto_devolver_dop": {
+      "q90": 10023643.28,
+      "q95": 10023643.28,
+      "mean_residual_calib": 2510318.71,
+      "max_residual_calib": 10023643.28
+    }
+  }
+}

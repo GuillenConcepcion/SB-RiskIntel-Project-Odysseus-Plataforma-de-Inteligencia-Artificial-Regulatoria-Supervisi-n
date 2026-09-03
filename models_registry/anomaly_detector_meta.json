@@ -1,0 +1,39 @@
+{
+  "task": "supervisory_anomaly_detection",
+  "contamination": 0.15,
+  "threshold": 29.07,
+  "total_records": 39,
+  "detected_anomalies": 1,
+  "features": [
+    "total_infracciones_imputadas",
+    "total_sanciones_impuestas",
+    "monto_sanciones_dop",
+    "total_procesos_sancionadores",
+    "total_solicitudes_aml",
+    "total_inspecciones_eif",
+    "total_planes_regularizacion",
+    "sanction_intensity",
+    "infraction_per_inspection",
+    "sanction_conversion_rate",
+    "aml_pressure_index",
+    "infracciones_lag_1",
+    "sanciones_lag_1",
+    "monto_sanciones_lag_1",
+    "aml_solicitudes_lag_1",
+    "procesos_sancionadores_lag_1",
+    "infracciones_lag_2",
+    "sanciones_lag_2",
+    "monto_sanciones_lag_2",
+    "aml_solicitudes_lag_2",
+    "procesos_sancionadores_lag_2",
+    "infracciones_roll_mean_4q",
+    "sanciones_roll_mean_4q",
+    "monto_sanciones_roll_mean_4q",
+    "aml_roll_mean_4q",
+    "infracciones_momentum",
+    "aml_momentum"
+  ],
+  "pca_explained_variance_ratio": [
+    0.9999999697906848
+  ]
+}

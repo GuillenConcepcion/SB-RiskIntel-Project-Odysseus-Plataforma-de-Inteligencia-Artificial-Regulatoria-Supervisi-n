@@ -1,0 +1,461 @@
+{
+  "model_type": "RandomForestClassifier",
+  "features": [
+    "total_infracciones_imputadas",
+    "total_sanciones_impuestas",
+    "monto_sanciones_dop",
+    "total_procesos_sancionadores",
+    "total_solicitudes_aml",
+    "total_inspecciones_eif",
+    "sanction_intensity",
+    "infraction_per_inspection",
+    "sanction_conversion_rate",
+    "aml_pressure_index",
+    "infracciones_lag_1",
+    "sanciones_lag_1",
+    "monto_sanciones_lag_1",
+    "aml_solicitudes_lag_1",
+    "procesos_sancionadores_lag_1",
+    "infracciones_lag_2",
+    "sanciones_lag_2",
+    "monto_sanciones_lag_2",
+    "aml_solicitudes_lag_2",
+    "procesos_sancionadores_lag_2",
+    "infracciones_roll_mean_4q",
+    "sanciones_roll_mean_4q",
+    "monto_sanciones_roll_mean_4q",
+    "aml_roll_mean_4q",
+    "infracciones_momentum",
+    "aml_momentum"
+  ],
+  "base_expected_value": 0.8292,
+  "global_shap_importance": [
+    {
+      "feature": "sanciones_roll_mean_4q",
+      "mean_abs_shap": 0.0282
+    },
+    {
+      "feature": "infracciones_roll_mean_4q",
+      "mean_abs_shap": 0.0263
+    },
+    {
+      "feature": "aml_solicitudes_lag_2",
+      "mean_abs_shap": 0.0221
+    },
+    {
+      "feature": "procesos_sancionadores_lag_1",
+      "mean_abs_shap": 0.0212
+    },
+    {
+      "feature": "aml_roll_mean_4q",
+      "mean_abs_shap": 0.0211
+    },
+    {
+      "feature": "infraction_per_inspection",
+      "mean_abs_shap": 0.0178
+    },
+    {
+      "feature": "monto_sanciones_roll_mean_4q",
+      "mean_abs_shap": 0.0173
+    },
+    {
+      "feature": "aml_solicitudes_lag_1",
+      "mean_abs_shap": 0.0158
+    },
+    {
+      "feature": "total_procesos_sancionadores",
+      "mean_abs_shap": 0.0134
+    },
+    {
+      "feature": "total_infracciones_imputadas",
+      "mean_abs_shap": 0.011
+    },
+    {
+      "feature": "procesos_sancionadores_lag_2",
+      "mean_abs_shap": 0.0101
+    },
+    {
+      "feature": "sanciones_lag_2",
+      "mean_abs_shap": 0.0088
+    },
+    {
+      "feature": "monto_sanciones_lag_2",
+      "mean_abs_shap": 0.0088
+    },
+    {
+      "feature": "infracciones_momentum",
+      "mean_abs_shap": 0.0086
+    },
+    {
+      "feature": "monto_sanciones_dop",
+      "mean_abs_shap": 0.0083
+    },
+    {
+      "feature": "infracciones_lag_1",
+      "mean_abs_shap": 0.0083
+    },
+    {
+      "feature": "total_solicitudes_aml",
+      "mean_abs_shap": 0.0079
+    },
+    {
+      "feature": "aml_momentum",
+      "mean_abs_shap": 0.0065
+    },
+    {
+      "feature": "total_sanciones_impuestas",
+      "mean_abs_shap": 0.0059
+    },
+    {
+      "feature": "monto_sanciones_lag_1",
+      "mean_abs_shap": 0.0055
+    },
+    {
+      "feature": "sanction_intensity",
+      "mean_abs_shap": 0.0049
+    },
+    {
+      "feature": "aml_pressure_index",
+      "mean_abs_shap": 0.0046
+    },
+    {
+      "feature": "sanction_conversion_rate",
+      "mean_abs_shap": 0.004
+    },
+    {
+      "feature": "total_inspecciones_eif",
+      "mean_abs_shap": 0.0039
+    },
+    {
+      "feature": "sanciones_lag_1",
+      "mean_abs_shap": 0.0025
+    },
+    {
+      "feature": "infracciones_lag_2",
+      "mean_abs_shap": 0.0022
+    }
+  ],
+  "permutation_importance": [
+    {
+      "feature": "total_infracciones_imputadas",
+      "importance_mean": 0.0,
+      "importance_std": 0.0
+    },
+    {
+      "feature": "total_sanciones_impuestas",
+      "importance_mean": 0.0,
+      "importance_std": 0.0
+    },
+    {
+      "feature": "monto_sanciones_dop",
+      "importance_mean": 0.0,
+      "importance_std": 0.0
+    },
+    {
+      "feature": "total_procesos_sancionadores",
+      "importance_mean": 0.0,
+      "importance_std": 0.0
+    },
+    {
+      "feature": "total_solicitudes_aml",
+      "importance_mean": 0.0,
+      "importance_std": 0.0
+    },
+    {
+      "feature": "total_inspecciones_eif",
+      "importance_mean": 0.0,
+      "importance_std": 0.0
+    },
+    {
+      "feature": "sanction_intensity",
+      "importance_mean": 0.0,
+      "importance_std": 0.0
+    },
+    {
+      "feature": "infraction_per_inspection",
+      "importance_mean": 0.0,
+      "importance_std": 0.0
+    },
+    {
+      "feature": "sanction_conversion_rate",
+      "importance_mean": 0.0,
+      "importance_std": 0.0
+    },
+    {
+      "feature": "aml_pressure_index",
+      "importance_mean": 0.0,
+      "importance_std": 0.0
+    },
+    {
+      "feature": "infracciones_lag_1",
+      "importance_mean": 0.0,
+      "importance_std": 0.0
+    },
+    {
+      "feature": "sanciones_lag_1",
+      "importance_mean": 0.0,
+      "importance_std": 0.0
+    },
+    {
+      "feature": "monto_sanciones_lag_1",
+      "importance_mean": 0.0,
+      "importance_std": 0.0
+    },
+    {
+      "feature": "aml_solicitudes_lag_1",
+      "importance_mean": 0.0,
+      "importance_std": 0.0
+    },
+    {
+      "feature": "procesos_sancionadores_lag_1",
+      "importance_mean": 0.0,
+      "importance_std": 0.0
+    },
+    {
+      "feature": "infracciones_lag_2",
+      "importance_mean": 0.0,
+      "importance_std": 0.0
+    },
+    {
+      "feature": "sanciones_lag_2",
+      "importance_mean": 0.0,
+      "importance_std": 0.0
+    },
+    {
+      "feature": "monto_sanciones_lag_2",
+      "importance_mean": 0.0,
+      "importance_std": 0.0
+    },
+    {
+      "feature": "aml_solicitudes_lag_2",
+      "importance_mean": 0.0,
+      "importance_std": 0.0
+    },
+    {
+      "feature": "procesos_sancionadores_lag_2",
+      "importance_mean": 0.0,
+      "importance_std": 0.0
+    },
+    {
+      "feature": "infracciones_roll_mean_4q",
+      "importance_mean": 0.0,
+      "importance_std": 0.0
+    },
+    {
+      "feature": "sanciones_roll_mean_4q",
+      "importance_mean": 0.0,
+      "importance_std": 0.0
+    },
+    {
+      "feature": "monto_sanciones_roll_mean_4q",
+      "importance_mean": 0.0,
+      "importance_std": 0.0
+    },
+    {
+      "feature": "aml_roll_mean_4q",
+      "importance_mean": 0.0,
+      "importance_std": 0.0
+    },
+    {
+      "feature": "infracciones_momentum",
+      "importance_mean": 0.0,
+      "importance_std": 0.0
+    },
+    {
+      "feature": "aml_momentum",
+      "importance_mean": 0.0,
+      "importance_std": 0.0
+    }
+  ],
+  "partial_dependence_profiles": {
+    "sanciones_roll_mean_4q": {
+      "grid": [
+        6.0,
+        11.83,
+        17.65,
+        23.48,
+        29.3,
+        35.13,
+        40.95,
+        46.78,
+        52.61,
+        58.43,
+        64.26,
+        70.08,
+        75.91,
+        81.73,
+        87.56
+      ],
+      "pdp_values": [
+        0.6845,
+        0.8193,
+        0.8464,
+        0.8464,
+        0.8448,
+        0.8448,
+        0.8448,
+        0.8448,
+        0.8448,
+        0.8448,
+        0.8448,
+        0.8448,
+        0.8448,
+        0.8448,
+        0.8448
+      ]
+    },
+    "infracciones_roll_mean_4q": {
+      "grid": [
+        43.75,
+        61.83,
+        79.9,
+        97.98,
+        116.06,
+        134.13,
+        152.21,
+        170.29,
+        188.36,
+        206.44,
+        224.51,
+        242.59,
+        260.67,
+        278.74,
+        296.82
+      ],
+      "pdp_values": [
+        0.7062,
+        0.8369,
+        0.8315,
+        0.8337,
+        0.8337,
+        0.8395,
+        0.8395,
+        0.8395,
+        0.8395,
+        0.8395,
+        0.8395,
+        0.8395,
+        0.8395,
+        0.8395,
+        0.8395
+      ]
+    },
+    "aml_solicitudes_lag_2": {
+      "grid": [
+        0.0,
+        131.11,
+        262.21,
+        393.32,
+        524.42,
+        655.53,
+        786.63,
+        917.74,
+        1048.85,
+        1179.95,
+        1311.06,
+        1442.16,
+        1573.27,
+        1704.37,
+        1835.48
+      ],
+      "pdp_values": [
+        0.8382,
+        0.8382,
+        0.8366,
+        0.8411,
+        0.8411,
+        0.8385,
+        0.8047,
+        0.7829,
+        0.7932,
+        0.7932,
+        0.7932,
+        0.7666,
+        0.7666,
+        0.7666,
+        0.7666
+      ]
+    },
+    "procesos_sancionadores_lag_1": {
+      "grid": [
+        0.0,
+        4.69,
+        9.38,
+        14.07,
+        18.75,
+        23.44,
+        28.13,
+        32.82,
+        37.51,
+        42.2,
+        46.89,
+        51.57,
+        56.26,
+        60.95,
+        65.64
+      ],
+      "pdp_values": [
+        0.7519,
+        0.8038,
+        0.8345,
+        0.8345,
+        0.8336,
+        0.8336,
+        0.8336,
+        0.8355,
+        0.8355,
+        0.8355,
+        0.8406,
+        0.8425,
+        0.8425,
+        0.8425,
+        0.8425
+      ]
+    }
+  },
+  "latest_period_explanation": {
+    "period": "2026-Q3",
+    "local_contributions": [
+      {
+        "feature": "aml_roll_mean_4q",
+        "feature_value": 670.5,
+        "shap_contribution": 0.0298
+      },
+      {
+        "feature": "total_infracciones_imputadas",
+        "feature_value": 0.0,
+        "shap_contribution": -0.0266
+      },
+      {
+        "feature": "infraction_per_inspection",
+        "feature_value": 0.0,
+        "shap_contribution": -0.0234
+      },
+      {
+        "feature": "total_solicitudes_aml",
+        "feature_value": 0.0,
+        "shap_contribution": -0.022
+      },
+      {
+        "feature": "procesos_sancionadores_lag_2",
+        "feature_value": 16.0,
+        "shap_contribution": 0.0213
+      },
+      {
+        "feature": "aml_momentum",
+        "feature_value": 0.0,
+        "shap_contribution": -0.0209
+      },
+      {
+        "feature": "total_procesos_sancionadores",
+        "feature_value": 0.0,
+        "shap_contribution": -0.0182
+      },
+      {
+        "feature": "monto_sanciones_lag_2",
+        "feature_value": 604092.0,
+        "shap_contribution": 0.0153
+      }
+    ]
+  }
+}
